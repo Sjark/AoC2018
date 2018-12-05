@@ -88,7 +88,23 @@ namespace Day4
             var guardThatSleptTheMost = minutesAsleep.OrderByDescending(a => a.Value.MinutesAsleep).First();
             var minuteHeSleptMostOften = guardThatSleptTheMost.Value.SleepSchedule.OrderByDescending(a => a.Value).First().Key;
 
-            Console.WriteLine($"Day4a: {guardThatSleptTheMost.Key * minuteHeSleptMostOften}");
+            Console.WriteLine($"Day 4a: {guardThatSleptTheMost.Key * minuteHeSleptMostOften}");
+
+            int guardThatSleptTheMostInSameMinute = -1;
+            var mostTimesAsleep = 0;
+
+            foreach (var guard in minutesAsleep.Keys)
+            {
+                var timesAsleep = minutesAsleep[guard].SleepSchedule.OrderByDescending(a => a.Value).First().Value;
+                if (timesAsleep > mostTimesAsleep)
+                {
+                    guardThatSleptTheMostInSameMinute = guard;
+                    mostTimesAsleep = timesAsleep;
+                }
+            }
+
+            var sleepMinute = minutesAsleep[guardThatSleptTheMostInSameMinute].SleepSchedule.OrderByDescending(a => a.Value).First().Key;
+            Console.WriteLine($"Day 4b: {guardThatSleptTheMostInSameMinute * sleepMinute}");
 
             Console.Read();
         }
